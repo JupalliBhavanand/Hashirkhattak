@@ -97,7 +97,7 @@ svg {
   align-items: center;
   justify-content: center;
   perspective: 2000px;
-  padding: 20px;
+  padding: 20px 20px 90px 20px;
 }
 
 .flipper {
@@ -159,7 +159,6 @@ svg {
   align-items: center;
 }
 
-/* Adjusted Logo Style for npslog.png */
 .logo-container {
   width: 58px;
   height: 58px;
@@ -298,6 +297,7 @@ h1 span {
   display: flex;
   gap: 12px;
   margin-top: 32px;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -418,6 +418,8 @@ h1 span {
   font-size: 10px;
   letter-spacing: 0.08em;
   z-index: 2;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .footer div {
@@ -426,19 +428,19 @@ h1 span {
   gap: 6px;
 }
 
-/* Back Face Content */
+/* Back Face Content - Responsive Optimization */
 .back-content {
   display: grid;
   grid-template-columns: 1fr 260px;
   align-items: center;
   gap: 40px;
-  padding: 20px 0;
+  padding: 30px 0;
   z-index: 2;
 }
 
 .back h2 {
   font-family: var(--font-heading);
-  font-size: clamp(28px, 3.5vw, 42px);
+  font-size: clamp(24px, 3.5vw, 42px);
   line-height: 1.15;
   margin: 14px 0;
 }
@@ -446,7 +448,7 @@ h1 span {
 .back p {
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.8;
+  line-height: 1.7;
   max-width: 440px;
 }
 
@@ -468,6 +470,8 @@ h1 span {
 
 .qr-block {
   text-align: center;
+  justify-self: center;
+  width: 100%;
 }
 
 .qr-paper {
@@ -476,18 +480,20 @@ h1 span {
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
   display: inline-block;
+  max-width: 100%;
 }
 
 #qrcode {
   width: 200px;
   height: 200px;
+  max-width: 100%;
   display: grid;
   place-items: center;
 }
 
 #qrcode img, #qrcode canvas {
   max-width: 100%;
-  height: auto;
+  height: auto !important;
 }
 
 /* Fixed Bottom Control Bar */
@@ -506,24 +512,28 @@ h1 span {
   border-radius: 14px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   backdrop-filter: blur(12px);
+  max-width: 92vw;
+  overflow-x: auto;
 }
 
 .toolbar button {
   border: 0;
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-radius: 8px;
   font-size: 11px;
   font-weight: 600;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
+  white-space: nowrap;
 }
 
 .toolbar .divider {
   height: 20px;
   width: 1px;
   background: var(--line);
-  margin: 0 4px;
+  margin: 0 2px;
+  flex-shrink: 0;
 }
 
 .theme-pop {
@@ -613,18 +623,92 @@ input:focus { outline: 1px solid var(--accent); }
 
 @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-/* Responsive adjustments */
+/* Responsive Adjustments for Mobile and Tablets */
 @media (max-width: 850px) {
-  .hero { grid-template-columns: 1fr; gap: 30px; }
-  .portrait-wrap { justify-self: start; max-width: 100%; }
-  .portrait { height: 260px; }
-  .back-content { grid-template-columns: 1fr; }
-  .qr-block { justify-self: start; }
-  .face { padding: 30px 24px; }
+  .face { 
+    padding: 28px 22px; 
+    min-height: auto;
+  }
+  .hero { 
+    grid-template-columns: 1fr; 
+    gap: 30px; 
+  }
+  .portrait-wrap { 
+    justify-self: start; 
+    max-width: 100%; 
+  }
+  .portrait { 
+    height: 260px; 
+  }
+  
+  /* Back Face Responsive Rules */
+  .back-content { 
+    grid-template-columns: 1fr; 
+    gap: 28px;
+    padding: 16px 0;
+    text-align: center;
+  }
+  .back .overline {
+    justify-content: center;
+  }
+  .back .overline::before {
+    display: none;
+  }
+  .back p { 
+    margin: 0 auto; 
+  }
+  .tags { 
+    justify-content: center; 
+    margin: 16px 0 22px;
+  }
+  .qr-block { 
+    justify-self: center; 
+  }
+  .footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
 }
+
+@media (max-width: 480px) {
+  .viewport {
+    padding: 12px 12px 85px 12px;
+  }
+  .face {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .face::before {
+    inset: 8px;
+    border-radius: 10px;
+  }
+  .brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .edition {
+    align-self: flex-start;
+  }
+  #qrcode {
+    width: 160px;
+    height: 160px;
+  }
+  .qr-paper {
+    padding: 12px;
+  }
+  .back h2 {
+    font-size: 22px;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+
 @media print {
   .toolbar, dialog, .notice, .hero-actions, .photo-hint { display: none !important; }
-  .viewport { perspective: none; }
+  .viewport { perspective: none; padding: 0; }
   .flipper { transform: none !important; }
   .face { border: 1px solid #ccc; background: #fff !important; color: #000 !important; }
 }
